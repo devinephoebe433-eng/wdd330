@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySphere – Smart Student Study Planner</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        /* Additional inline styles for layout specifics not in main.css */
+        .section { padding: 1rem 0; }
+        .hidden { display: none; }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .modal-content { width: 90%; max-width: 500px; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            background: inherit;
+            color: inherit;
+        }
+        .timer-display { font-size: 4rem; font-weight: 700; margin: 2rem 0; color: var(--primary-blue); }
+        .timer-controls { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem; }
+        .timer-settings { display: flex; gap: 0.5rem; justify-content: center; }
+        
+        /* Game Styles */
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #eee;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        #game-canvas { width: 100%; height: 100%; display: block; background: #fff; }
+        .game-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Progress Bar */
+        .progress-bar-container {
+            width: 100%;
+            height: 1rem;
+            background: var(--border-light);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-green);
+            transition: width 0.5s ease;
+        }
+        
+        /* Assignments & Notes List */
+        .items-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+        .item-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+        }
+        .item-card.completed { opacity: 0.6; text-decoration: line-through; }
+        
+        body.dark-mode .item-card { border-color: var(--border-dark); }
+        body.dark-mode .modal { background: rgba(0,0,0,0.8); }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar (Desktop) -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i data-lucide="graduation-cap"></i>
+                <span>StudySphere</span>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#dashboard" class="active" data-section="dashboard"><i data-lucide="layout-dashboard"></i> <span>Dashboard</span></a></li>
+                    <li><a href="#assignments" data-section="assignments"><i data-lucide="list-checks"></i> <span>Assignments</span></a></li>
+                    <li><a href="#timer" data-section="timer"><i data-lucide="timer"></i> <span>Study Timer</span></a></li>
+                    <li><a href="#notes" data-section="notes"><i data-lucide="notebook"></i> <span>Notes</span></a></li>
+                    <li><a href="#books" data-section="books"><i data-lucide="book-open"></i> <span>Book Search</span></a></li>
+                    <li><a href="#game" data-section="game"><i data-lucide="gamepad-2"></i> <span>Boredom Chase</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="theme-toggle-desktop" class="btn btn-outline" style="width: 100%">
+                    <i data-lucide="moon" class="dark-icon"></i>
+                    <span>Theme</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="user-welcome">
+                    <h1 id="page-title">Dashboard</h1>
+                    <p id="current-date"></p>
+                </div>
+                <div class="header-actions">
+                    <button id="theme-toggle-mobile" class="btn btn-outline">
+                        <i data-lucide="moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Sections -->
+            <section id="dashboard-section" class="section">
+                <div class="dashboard-grid">
+                    <div class="card quote-card">
+                        <h3>Quote of the Day</h3>
+                        <div id="quote-container" style="margin-top: 1rem;">
+                            <p class="loading">Loading motivation...</p>
+                        </div>
+                    </div>
+                    <div class="card progress-card">
+                        <h3>Your Progress</h3>
+                        <div id="progress-summary" style="margin-top: 1rem;">
+                            <div class="progress-bar-container">
+                                <div id="overall-progress-bar" class="progress-bar" style="width: 0%"></div>
+                            </div>
+                            <p id="progress-text">0% Completed</p>
+                        </div>
+                    </div>
+                    <div class="card tasks-summary">
+                        <h3>Today's Focus</h3>
+                        <ul id="today-tasks-list" style="list-style: none; margin-top: 1rem;">
+                            <li>No assignments due today!</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="assignments-section" class="section hidden">
+                <div class="card">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h2>Assignments</h2>
+                        <button id="add-assignment-btn" class="btn btn-primary"><i data-lucide="plus"></i> Add</button>
+                    </div>
+                    <div class="filter-bar" style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <input type="text" id="assignment-search" placeholder="Search..." style="flex: 1; padding: 0.5rem; border-radius: 0.25rem; border: 1px solid var(--border-light);">
+                    </div>
+                    <div id="assignments-list" class="items-list">
+                        <!-- Assignments will be injected here -->
+                    </div>
+                </div>
+            </section>
+
+            <section id="timer-section" class="section hidden">
+                <div class="card timer-card" style="text-align: center;">
+                    <h2>Study Timer</h2>
+                    <div class="timer-display" id="timer-display">25:00</div>
+                    <div class="timer-controls">
+                        <button id="start-timer" class="btn btn-primary">Start</button>
+                        <button id="pause-timer" class="btn btn-outline">Pause</button>
+                        <button id="reset-timer" class="btn btn-outline">Reset</button>
+                    </div>
+                    <div class="timer-settings">
+                        <button class="btn btn-outline" data-time="25">Study</button>
+                        <button class="btn btn-outline" data-time="5">Short Break</button>
+                        <button class="btn btn-outline" data-time="15">Long Break</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="notes-section" class="section hidden">
+                <div class="card">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h2>Notes</h2>
+                        <button id="add-note-btn" class="btn btn-primary"><i data-lucide="plus"></i> New Note</button>
+                    </div>
+                    <div id="notes-grid" class="dashboard-grid">
+                        <!-- Notes will be injected here -->
+                    </div>
+                </div>
+            </section>
+
+            <section id="books-section" class="section hidden">
+                <div class="card">
+                    <h2>Book Search</h2>
+                    <div class="search-box" style="display: flex; gap: 0.5rem; margin: 1rem 0;">
+                        <input type="text" id="book-search-input" placeholder="Search books..." style="flex: 1; padding: 0.5rem; border-radius: 0.25rem; border: 1px solid var(--border-light);">
+                        <button id="book-search-btn" class="btn btn-primary">Search</button>
+                    </div>
+                    <div id="books-results" class="dashboard-grid">
+                        <!-- Book results will be injected here -->
+                    </div>
+                </div>
+            </section>
+
+            <section id="game-section" class="section hidden">
+                <div class="card game-card">
+                    <h2>Boredom Chase</h2>
+                    <p style="margin-bottom: 1rem;">Collect graduation caps, avoid overdue tasks!</p>
+                    <div id="game-container">
+                        <canvas id="game-canvas"></canvas>
+                        <div id="game-overlay" class="game-overlay">
+                            <button id="start-game-btn" class="btn btn-primary">Start Game</button>
+                        </div>
+                    </div>
+                    <div class="game-stats" style="display: flex; justify-content: space-between; margin-top: 1rem;">
+                        <span>Score: <span id="game-score">0</span></span>
+                        <span>High Score: <span id="game-highscore">0</span></span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Mobile Nav -->
+        <nav class="mobile-nav">
+            <ul class="mobile-nav-links">
+                <li><a href="#dashboard" class="active" data-section="dashboard"><i data-lucide="layout-dashboard"></i></a></li>
+                <li><a href="#assignments" data-section="assignments"><i data-lucide="list-checks"></i></a></li>
+                <li><a href="#timer" data-section="timer"><i data-lucide="timer"></i></a></li>
+                <li><a href="#notes" data-section="notes"><i data-lucide="notebook"></i></a></li>
+                <li><a href="#game" data-section="game"><i data-lucide="gamepad-2"></i></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Modals -->
+    <div id="assignment-modal" class="modal hidden">
+        <div class="modal-content card">
+            <h3 id="modal-title">Add Assignment</h3>
+            <form id="assignment-form">
+                <input type="hidden" id="edit-id">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="due-date">Due Date</label>
+                    <input type="date" id="due-date" required>
+                </div>
+                <div class="form-actions" style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-outline close-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="note-modal" class="modal hidden">
+        <div class="modal-content card">
+            <h3 id="note-modal-title">New Note</h3>
+            <form id="note-form">
+                <input type="hidden" id="note-edit-id">
+                <div class="form-group">
+                    <label for="note-title">Title</label>
+                    <input type="text" id="note-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="note-content">Content</label>
+                    <textarea id="note-content" rows="5" required></textarea>
+                </div>
+                <div class="form-actions" style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-outline close-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

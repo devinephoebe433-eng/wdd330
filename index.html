@@ -160,6 +160,23 @@
                         </ul>
                     </div>
                 </div>
+                <div class="study-visuals" aria-label="Study inspiration photos">
+                    <article class="study-visual study-visual-large">
+                        <img src="assets/photos/study-desk.jpg" alt="A calm desk with books, a laptop, and study materials">
+                        <div class="study-visual-overlay">
+                            <span class="eyebrow">Make space to learn</span>
+                            <h2>Small rituals create big progress.</h2>
+                        </div>
+                    </article>
+                    <article class="study-visual">
+                        <img src="assets/photos/library-reading.jpg" alt="A student reading in a library">
+                        <div class="study-visual-caption"><strong>Find your focus</strong><span>One page at a time.</span></div>
+                    </article>
+                    <article class="study-visual">
+                        <img src="assets/photos/study-notes.jpg" alt="Study notes beside a laptop and coffee">
+                        <div class="study-visual-caption"><strong>Keep it simple</strong><span>Plan, practice, reflect.</span></div>
+                    </article>
+                </div>
             </section>
 
             <section id="assignments-section" class="section hidden">
@@ -208,12 +225,19 @@
 
             <section id="books-section" class="section hidden">
                 <div class="card">
-                    <h2>Book Search</h2>
+                    <div class="section-heading">
+                        <div>
+                            <span class="eyebrow">Build your reading list</span>
+                            <h2>Book Search</h2>
+                            <p class="section-subtitle">Discover textbooks, references, and ideas through Google Books.</p>
+                        </div>
+                    </div>
                     <div class="search-box" style="display: flex; gap: 0.5rem; margin: 1rem 0;">
                         <input type="text" id="book-search-input" placeholder="Search books..." style="flex: 1; padding: 0.5rem; border-radius: 0.25rem; border: 1px solid var(--border-light);">
                         <button id="book-search-btn" class="btn btn-primary">Search</button>
                     </div>
-                    <div id="books-results" class="dashboard-grid">
+                    <div id="books-status" class="books-status" aria-live="polite">Try a topic such as “web development” or “study skills”.</div>
+                    <div id="books-results" class="dashboard-grid book-results-grid">
                         <!-- Book results will be injected here -->
                     </div>
                 </div>
@@ -244,6 +268,7 @@
                 <li><a href="#assignments" data-section="assignments"><i data-lucide="list-checks"></i></a></li>
                 <li><a href="#timer" data-section="timer"><i data-lucide="timer"></i></a></li>
                 <li><a href="#notes" data-section="notes"><i data-lucide="notebook"></i></a></li>
+                <li><a href="#books" data-section="books"><i data-lucide="book-open"></i></a></li>
                 <li><a href="#game" data-section="game"><i data-lucide="gamepad-2"></i></a></li>
             </ul>
         </nav>

@@ -8,7 +8,8 @@ import { addNote } from './notes.js';
 import { initTimer } from './timer.js';
 import { updateProgressUI } from './progress.js';
 import { displayDailyQuote } from './quotes.js';
-import { handleBookSearch } from './books.js';
+import { handleBookSearch, renderFeaturedBooks } from './books.js';
+import { initAuth } from './auth.js';
 import { initGame } from './game.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -32,6 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     setupModals();
     setupSearch();
+    initAuth();
+    renderFeaturedBooks('books-results');
+    if (window.lucide) window.lucide.createIcons();
 });
 
 function setupModals() {

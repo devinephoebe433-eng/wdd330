@@ -129,6 +129,7 @@
                     <p id="current-date"></p>
                 </div>
                 <div class="header-actions">
+                    <button id="signin-btn" class="profile-button" aria-label="Open sign in" title="Sign in"><i data-lucide="user-round"></i><span>Sign in</span></button>
                     <button id="theme-toggle-mobile" class="btn btn-outline" aria-label="Toggle dark mode" title="Toggle dark mode">
                         <i data-lucide="moon"></i>
                     </button>
@@ -172,21 +173,22 @@
                     </div>
                 </div>
                 <div class="study-visuals" aria-label="Study inspiration photos">
-                    <article class="study-visual study-visual-large">
+                    <a href="#timer" data-section="timer" class="study-visual study-visual-large quick-link" aria-label="Open the study timer">
                         <img src="assets/photos/study-desk.jpg" alt="A calm desk with books, a laptop, and study materials">
                         <div class="study-visual-overlay">
                             <span class="eyebrow">Make space to learn</span>
                             <h2>Small rituals create big progress.</h2>
+                            <span class="visual-action">Open study timer <i data-lucide="arrow-up-right"></i></span>
                         </div>
-                    </article>
-                    <article class="study-visual">
+                    </a>
+                    <a href="#books" data-section="books" class="study-visual quick-link" aria-label="Open book search">
                         <img src="assets/photos/library-reading.jpg" alt="A student reading in a library">
-                        <div class="study-visual-caption"><strong>Find your focus</strong><span>One page at a time.</span></div>
-                    </article>
-                    <article class="study-visual">
+                        <div class="study-visual-caption"><strong>Find your focus</strong><span>One page at a time.</span><span class="visual-action">Explore books <i data-lucide="arrow-up-right"></i></span></div>
+                    </a>
+                    <a href="#notes" data-section="notes" class="study-visual quick-link" aria-label="Open notes">
                         <img src="assets/photos/study-notes.jpg" alt="Study notes beside a laptop and coffee">
-                        <div class="study-visual-caption"><strong>Keep it simple</strong><span>Plan, practice, reflect.</span></div>
-                    </article>
+                        <div class="study-visual-caption"><strong>Keep it simple</strong><span>Plan, practice, reflect.</span><span class="visual-action">Open notes <i data-lucide="arrow-up-right"></i></span></div>
+                    </a>
                 </div>
             </section>
 
@@ -249,7 +251,7 @@
                     </div>
                     <div id="books-status" class="books-status" aria-live="polite">Try a topic such as “web development” or “study skills”.</div>
                     <div id="books-results" class="dashboard-grid book-results-grid">
-                        <!-- Book results will be injected here -->
+                        <!-- Featured and searched books will be injected here -->
                     </div>
                 </div>
             </section>
@@ -283,6 +285,21 @@
                 <li><a href="#game" data-section="game"><i data-lucide="gamepad-2"></i></a></li>
             </ul>
         </nav>
+    </div>
+
+    <!-- Sign-in modal -->
+    <div id="auth-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+        <div class="modal-content card auth-card">
+            <button type="button" class="modal-close close-auth" aria-label="Close sign in"><i data-lucide="x"></i></button>
+            <div class="auth-heading"><span class="auth-mark"><i data-lucide="sparkles"></i></span><span class="eyebrow">Welcome back</span><h2 id="auth-title">Sign in to StudySphere</h2><p>Keep your assignments, notes, and study rhythm in one calm place.</p></div>
+            <form id="auth-form">
+                <div class="form-group"><label for="auth-email">Email address</label><input type="email" id="auth-email" placeholder="you@example.com" autocomplete="email" required></div>
+                <div class="form-group"><label for="auth-password">Password</label><input type="password" id="auth-password" placeholder="Enter your password" autocomplete="current-password" minlength="6" required></div>
+                <label class="remember-row"><input type="checkbox" id="remember-me" checked> <span>Keep me signed in on this device</span></label>
+                <button type="submit" class="btn btn-primary auth-submit">Continue to dashboard <i data-lucide="arrow-right"></i></button>
+                <p id="auth-status" class="auth-status" aria-live="polite"></p>
+            </form>
+        </div>
     </div>
 
     <!-- Modals -->

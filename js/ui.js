@@ -28,6 +28,10 @@ export function initNavigation() {
             }
         });
     });
+
+    const initialSection = window.location.hash.replace('#', '');
+    const initialLink = [...navLinks].find(link => link.dataset.section === initialSection);
+    if (initialLink) initialLink.click();
 }
 
 export function renderAssignments(containerId) {

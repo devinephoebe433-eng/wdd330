@@ -6,7 +6,7 @@ import { getNotes, deleteNote } from './notes.js';
 import { updateProgressUI } from './progress.js';
 
 export function initNavigation() {
-    const navLinks = document.querySelectorAll('.nav-links a, .mobile-nav-links a');
+    const navLinks = document.querySelectorAll('.nav-links a, .mobile-nav-links a, .quick-link, a[data-section]');
     const sections = document.querySelectorAll('.section');
     const pageTitle = document.getElementById('page-title');
 

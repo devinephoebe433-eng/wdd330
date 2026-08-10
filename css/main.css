@@ -251,6 +251,12 @@ body.dark-mode .mobile-nav {
 .text-accent { color: var(--accent-green); }
 
 /* Study visuals and books experience */
+.welcome-card { display: flex; justify-content: space-between; align-items: center; gap: 2rem; padding: 1.75rem 2rem; border: 1px solid rgba(79, 70, 229, .14); background: linear-gradient(120deg, #eef2ff 0%, #ffffff 58%, #f0fdf4 100%); }
+.welcome-card h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 2.2rem); letter-spacing: -.03em; }
+.welcome-card p { max-width: 37rem; margin: .45rem 0 0; color: #536174; }
+.welcome-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .65rem; }
+.welcome-actions a { text-decoration: none; white-space: nowrap; }
+
 .section-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; }
 .eyebrow { display: block; margin-bottom: .35rem; color: var(--primary-blue); font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .section-subtitle { margin: .35rem 0 0; color: var(--text-light); }
@@ -274,6 +280,8 @@ body.dark-mode .mobile-nav {
 .book-card .book-description { display: -webkit-box; margin: 0; overflow: hidden; color: var(--text-light); font-size: .8rem; line-height: 1.45; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
 .book-card .btn { margin-top: auto; }
 @media (max-width: 900px) { .study-visuals { grid-template-columns: 1fr 1fr; } .study-visual-large { grid-column: 1 / -1; } }
-@media (max-width: 560px) { .study-visuals { grid-template-columns: 1fr; } .study-visual-large { grid-column: auto; } .section-heading { display: block; } .book-results-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .book-cover { height: 170px; } }
+@media (max-width: 560px) { .welcome-card { align-items: flex-start; flex-direction: column; padding: 1.35rem; } .welcome-actions { justify-content: flex-start; width: 100%; } .welcome-actions a { flex: 1; justify-content: center; } .study-visuals { grid-template-columns: 1fr; } .study-visual-large { grid-column: auto; } .section-heading { display: block; } .book-results-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .book-cover { height: 170px; } }
+body.dark-mode .welcome-card { border-color: var(--border-dark); background: linear-gradient(120deg, #1d2547 0%, #1f2937 58%, #173329 100%); }
+body.dark-mode .welcome-card p { color: #cbd5e1; }
 body.dark-mode .book-card { background: var(--card-bg-dark); border-color: var(--border-dark); }
 body.dark-mode .book-cover { background: #223247; }

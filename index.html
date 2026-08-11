@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudySphere – Smart Student Study Planner</title>
+    <meta name="description" content="StudySphere is a simple school assignment planner for tracking deadlines, taking notes, and building better study habits.">
+    <meta name="keywords" content="school assignment planner, student study planner, assignment tracker, study timer, student notes">
+    <meta name="author" content="StudySphere">
+    <link rel="canonical" href="https://devinephoebe433-eng.github.io/wdd330/">
+    <meta property="og:title" content="StudySphere | School Assignment Planner">
+    <meta property="og:description" content="Plan school assignments, track deadlines, take notes, and stay focused with StudySphere.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://devinephoebe433-eng.github.io/wdd330/">
+    <title>StudySphere | School Assignment Planner</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -125,7 +133,7 @@
         <main class="main-content">
             <header class="top-header">
                 <div class="user-welcome">
-                    <h1 id="page-title">Dashboard</h1>
+                    <h1 id="page-title">School Assignment Planner</h1>
                     <p id="current-date"></p>
                 </div>
                 <div class="header-actions">
@@ -141,8 +149,8 @@
                 <div class="welcome-card card">
                     <div>
                         <span class="eyebrow">Your study space</span>
-                        <h2>Make today count.</h2>
-                        <p>Plan one meaningful task, protect your focus, and celebrate the progress you make.</p>
+                        <h2>Plan your school assignments.</h2>
+                        <p>Track deadlines, choose one task, and make steady progress each day.</p>
                     </div>
                     <div class="welcome-actions">
                         <a href="#assignments" data-section="assignments" class="btn btn-primary"><i data-lucide="plus"></i> Add assignment</a>
@@ -166,7 +174,7 @@
                         </div>
                     </div>
                     <div class="card tasks-summary">
-                        <h3>Today's Focus</h3>
+                        <h3>Today’s School Assignments</h3>
                         <ul id="today-tasks-list" style="list-style: none; margin-top: 1rem;">
                             <li>No assignments due today!</li>
                         </ul>
@@ -195,7 +203,10 @@
             <section id="assignments-section" class="section hidden">
                 <div class="card">
                     <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <h2>Assignments</h2>
+                        <div>
+                            <h2>School Assignments</h2>
+                            <p class="section-subtitle">Keep every school assignment, subject, and deadline in one clear list.</p>
+                        </div>
                         <button id="add-assignment-btn" class="btn btn-primary"><i data-lucide="plus"></i> Add</button>
                     </div>
                     <div class="filter-bar" style="display: flex; gap: 1rem; margin-bottom: 1rem;">
